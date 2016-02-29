@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour {
 	public List<Ability> abilities;
 	public List<StatusEffect> statusEffects;
+	public PlayerUI hud;				//HUD for the player
 
 	public float maxHealth;				//The player's maximum health
 	public float health;				//The player's current health
 
-	public float maxMana;			//The player's maximum mana
+	public float maxMana;				//The player's maximum mana
 	public float mana;                  //The player's remaining mana
 	protected float manaRegen;			//The rate of mana regeneration for the player
 

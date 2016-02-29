@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ChargeBuff : StatusEffect {
+public class ChargeBuff : Buff {
 	public float movespeedIncrease = 10;
 	public float duration_c = 3;
 
 	// Use this for initialization
 	protected override void Start () {
+		statusEffectIconPrefab = Resources.Load<GameObject>("StatusEffectIconPrefabs/ChargeBuffIcon");
+
 		base.Start();
 
 		duration = duration_c;
