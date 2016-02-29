@@ -3,12 +3,13 @@ using System.Collections;
 
 //These gem names are arbitrary.  We can change them to whatever we want
 //Gems used for enchanting a weapon:
-//Aquamarine:	Ice
-//Sunstone:		Fire
-//Fluorite:		Additional Crit
-//Onyx:			Additional Damage
-//Spinel:		Wounding	
-public enum Gems { Aquamarine, Sunstone, Fluorite, Onyx, Spinel, NumberOfTypes};
+public enum Gems {	Aquamarine,		//Ice
+					Sunstone,		//Fire
+					Fluorite,		//Additional Crit
+					Onyx,			//Additional Damage
+					Spinel,			//Wounding
+					NumberOfTypes	//Number of different gems
+};
 
 public class EnchantmentKeys : MonoBehaviour {
 	//GLOBAL KEY VALUES FOR ENCHANTMENTS  
