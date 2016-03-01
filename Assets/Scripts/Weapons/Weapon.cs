@@ -8,8 +8,8 @@ public class Weapon : MonoBehaviour {
 
 	public Vector3 hitboxDimensions;						//Dimensions of collider when the weapon is equipped.  Varies for different weapons.
 
-	protected int damageMin;                                //Min damage a weapon can output without a critical hit
-	protected int damageMax;                                //Max damage a weapon can output without a critical hit
+	protected float damageMin;                                //Min damage a weapon can output without a critical hit
+	protected float damageMax;                                //Max damage a weapon can output without a critical hit
 	protected float critChance;                             //Percent chance from 0 - 1 of landing a critical hit
 	protected Rarity weaponRarity;                          //Rarity of the weapon (determines its power)
 	protected int handsRequired;                            //Number of hands needed to hold the weapon (1 or 2)
@@ -57,16 +57,16 @@ public class Weapon : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.tag == "Enemy") {
-			DealDamage(other.gameObject);
+		DamageableObject objCanBeHit = other.gameObject.GetComponent<DamageableObject>();
+		if (objCanBeHit != null) {
+			DealDamage(objCanBeHit);
 		} 
 	}
 
 	//Deal damage to every enemy that was inside the attack hitbox when it was enabled
-	//UNTESTED!  NO ENEMIES YET!
-	void DealDamage(GameObject enemy) {
+	void DealDamage(DamageableObject other) {
 		//Determine damage dealt for the attack
-		int attackDamage = Random.Range(damageMin, damageMax + 1);
+		float attackDamage = Random.Range(damageMin, damageMax + 1);
 
 		//Determine if the attack was a critical hit
 		//If so, double the damage dealt
@@ -75,9 +75,7 @@ public class Weapon : MonoBehaviour {
 		}
 
 		//TODO: Apply calculations for enchantments, such as additional crit chance, freezing chance, etc.
-		//		Also do calculations with potential enemy armor.
 
-		//TODO: Create an enemy system with HP to affect with the attack damage determined in this function.
-		//		Right now it calculates damage and does nothing with it.
+		other.TakeDamage(attackDamage);
 	}
 }

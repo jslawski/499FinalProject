@@ -19,16 +19,16 @@ public class ShortSword : Weapon {
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.
 		if (weaponRarity == Rarity.Common) {
-			damageMin = Random.Range(1, 3);
-			damageMax = Random.Range(5, 7);
+			damageMin = Random.Range(10, 30);
+			damageMax = Random.Range(50, 70);
 		}
 		else if (weaponRarity == Rarity.Uncommon) {
-			damageMin = Random.Range(4, 6);
-			damageMax = Random.Range(9, 12);
+			damageMin = Random.Range(40, 60);
+			damageMax = Random.Range(90, 120);
 		}
 		else if (weaponRarity == Rarity.Rare) {
-			damageMin = Random.Range(10, 12);
-			damageMax = Random.Range(15, 17);
+			damageMin = Random.Range(100, 120);
+			damageMax = Random.Range(150, 170);
 		}
 
 		handsRequired = 1;

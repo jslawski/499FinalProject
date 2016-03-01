@@ -19,16 +19,16 @@ public class Halberd : Weapon {
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.
 		if (weaponRarity == Rarity.Common) {
-			damageMin = Random.Range(1, 1);
-			damageMax = Random.Range(7, 9);
+			damageMin = Random.Range(10, 10);
+			damageMax = Random.Range(70, 90);
 		}
 		else if (weaponRarity == Rarity.Uncommon) {
-			damageMin = Random.Range(2, 3);
-			damageMax = Random.Range(10, 15);
+			damageMin = Random.Range(20, 30);
+			damageMax = Random.Range(100, 150);
 		}
 		else if (weaponRarity == Rarity.Rare) {
-			damageMin = Random.Range(5, 6);
-			damageMax = Random.Range(17, 21);
+			damageMin = Random.Range(50, 60);
+			damageMax = Random.Range(170, 210);
 		}
 
 		handsRequired = 2;

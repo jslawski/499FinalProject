@@ -2,7 +2,7 @@
 using System.Collections;
 
 //Utilizes the NavMeshAgent component on the enemy to navigate towards the player's position
-public class ZombieAI : MonoBehaviour {
+public class ZombieAI : Enemy {
 	NavMeshAgent agent;
     public Transform goal;
 

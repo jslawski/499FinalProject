@@ -18,16 +18,16 @@ public class Dagger : Weapon {
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.
 		if (weaponRarity == Rarity.Common) {
-			damageMin = Random.Range(1, 2);
-			damageMax = Random.Range(4, 6);
+			damageMin = Random.Range(10, 20);
+			damageMax = Random.Range(40, 60);
 		}
 		else if (weaponRarity == Rarity.Uncommon) {
-			damageMin = Random.Range(4, 5);
-			damageMax = Random.Range(7, 10);
+			damageMin = Random.Range(40, 50);
+			damageMax = Random.Range(70, 100);
 		}
 		else if (weaponRarity == Rarity.Rare) {
-			damageMin = Random.Range(7, 9);
-			damageMax = Random.Range(13, 16);
+			damageMin = Random.Range(70, 90);
+			damageMax = Random.Range(130, 160);
 		}
 
 		handsRequired = 1;

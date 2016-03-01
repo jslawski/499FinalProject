@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class Character : MonoBehaviour {
+public class Character : MonoBehaviour, DamageableObject {
 	public List<Ability> abilities;
 	public List<StatusEffect> statusEffects;
 	public PlayerUI hud;				//HUD for the player
@@ -119,12 +119,6 @@ public class Character : MonoBehaviour {
 		currentWeapon.gameObject.GetComponent<MeshRenderer>().enabled = false;
 
 	}
-
-	//void FixedUpdate() {
-	//	//The player has higher friction when moving at a higher speed so that they don't become too slidy
-	//	thisCollider.material.dynamicFriction = 0.4f + (thisRigidbody.velocity.magnitude) / 2.5f;
-	//	//print(thisCollider.material.dynamicFriction);
-	//}
 	
 	void Move(Vector3 direction) {
 		thisRigidbody.AddForce(direction * acceleration, ForceMode.Acceleration);
@@ -134,5 +128,9 @@ public class Character : MonoBehaviour {
 		//	cur_vel.z = movespeed;
 		//	thisRigidbody.velocity = cur_vel;
 		//}
+	}
+
+	public void TakeDamage(float damageIn) {
+		print("<color=red>TakeDamage() not implemented yet.</color>");
 	}
 }

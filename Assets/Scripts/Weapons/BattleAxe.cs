@@ -18,16 +18,16 @@ public class BattleAxe : Weapon {
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.
 		if (weaponRarity == Rarity.Common) {
-			damageMin = Random.Range(7, 10);
-			damageMax = Random.Range(12, 15);
+			damageMin = Random.Range(70, 100);
+			damageMax = Random.Range(120, 150);
 		}
 		else if (weaponRarity == Rarity.Uncommon) {
-			damageMin = Random.Range(13, 17);
-			damageMax = Random.Range(19, 22);
+			damageMin = Random.Range(130, 170);
+			damageMax = Random.Range(190, 220);
 		}
 		else if (weaponRarity == Rarity.Rare) {
-			damageMin = Random.Range(20, 24);
-			damageMax = Random.Range(27, 32);
+			damageMin = Random.Range(200, 240);
+			damageMax = Random.Range(270, 320);
 		}
 
 		handsRequired = 2;
