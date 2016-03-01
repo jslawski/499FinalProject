@@ -6,15 +6,19 @@ public enum Rarity { Common, Uncommon, Rare };
 
 public class Weapon : MonoBehaviour {
 
-	protected int damageMin;								//Min damage a weapon can output without a critical hit
-	protected int damageMax;								//Max damage a weapon can output without a critical hit
-	protected float critChance;								//Percent chance from 0 - 1 of landing a critical hit
-	protected Rarity weaponRarity;							//Rarity of the weapon (determines its power)
-	protected int handsRequired;							//Number of hands needed to hold the weapon (1 or 2)
-	protected float attackCoolDown;                         //Time in seconds that the player has to wait before being able to attack again
+	public Vector3 hitboxDimensions;						//Dimensions of collider when the weapon is equipped.  Varies for different weapons.
 
-	protected int numGemSlots;								//Number of slots a weapon has for enchantment gems
-	protected List<Gems> attachedGems;						//List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
+	protected int damageMin;                                //Min damage a weapon can output without a critical hit
+	protected int damageMax;                                //Max damage a weapon can output without a critical hit
+	protected float critChance;                             //Percent chance from 0 - 1 of landing a critical hit
+	protected Rarity weaponRarity;                          //Rarity of the weapon (determines its power)
+	protected int handsRequired;                            //Number of hands needed to hold the weapon (1 or 2)
+
+	public float attackCoolDown;                            //Time in seconds that the player has to wait before being able to attack again
+	public float attackDelay;                               //Time in seconds that the player has to wait between pressing the attack button and the attack getting executed
+
+	protected int numGemSlots;                              //Number of slots a weapon has for enchantment gems
+	protected List<Gems> attachedGems;                      //List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
 	protected Dictionary<string, float> weaponEnchantments;	//Dict of all of the current enchantment abiltities on the weapon
 
 	// Use this for initialization
@@ -50,5 +54,30 @@ public class Weapon : MonoBehaviour {
 			returnValue += "\n     " + gem.ToString();
 		}
 		return returnValue;
+	}
+
+	void OnTriggerEnter(Collider other) {
+		if (other.gameObject.tag == "Enemy") {
+			DealDamage(other.gameObject);
+		} 
+	}
+
+	//Deal damage to every enemy that was inside the attack hitbox when it was enabled
+	//UNTESTED!  NO ENEMIES YET!
+	void DealDamage(GameObject enemy) {
+		//Determine damage dealt for the attack
+		int attackDamage = Random.Range(damageMin, damageMax + 1);
+
+		//Determine if the attack was a critical hit
+		//If so, double the damage dealt
+		if (Random.Range(0, 1.0f) <= critChance) {
+			attackDamage = attackDamage * 2;
+		}
+
+		//TODO: Apply calculations for enchantments, such as additional crit chance, freezing chance, etc.
+		//		Also do calculations with potential enemy armor.
+
+		//TODO: Create an enemy system with HP to affect with the attack damage determined in this function.
+		//		Right now it calculates damage and does nothing with it.
 	}
 }

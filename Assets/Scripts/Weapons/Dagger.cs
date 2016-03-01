@@ -6,10 +6,15 @@ public class Dagger : Weapon {
 	//Daggers are short-ranged weapons that only use 1 hand
 	//Of all of the weapons, they have the fastest attack speed.
 	//In terms of damage output, they are on the lower end, and their crit chance is about average
+	//The hitbox for the dagger is short and narrow.  It's attack delay is almost non-existant.
 
 	// Use this for initialization
 	protected override void Start () {
 		base.Start();
+
+		hitboxDimensions = new Vector3(1, 1, 1);
+
+		attackDelay = 0.05f;
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.
 		if (weaponRarity == Rarity.Common) {
@@ -26,7 +31,7 @@ public class Dagger : Weapon {
 		}
 
 		handsRequired = 1;
-		attackCoolDown = 0.45f;
+		attackCoolDown = 0.1f;
 
 		//Currently I was thinking we could have all weapons of the same type have the same crit chance
 		//I'm up for having this dependent on rarity as well
