@@ -8,6 +8,8 @@ public class Character : MonoBehaviour {
 	public List<StatusEffect> statusEffects;
 	public PlayerUI hud;				//HUD for the player
 
+
+
 	public float maxHealth;				//The player's maximum health
 	public float health;				//The player's current health
 
@@ -82,12 +84,6 @@ public class Character : MonoBehaviour {
 			thisRigidbody.velocity = thisRigidbody.velocity.normalized * movespeed;
 		}
 	}
-
-	//void FixedUpdate() {
-	//	//The player has higher friction when moving at a higher speed so that they don't become too slidy
-	//	thisCollider.material.dynamicFriction = 0.4f + (thisRigidbody.velocity.magnitude) / 2.5f;
-	//	//print(thisCollider.material.dynamicFriction);
-	//}
 
 	void Move(Vector3 direction) {
 		thisRigidbody.AddForce(direction * acceleration, ForceMode.Acceleration);
