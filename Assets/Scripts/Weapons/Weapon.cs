@@ -19,7 +19,9 @@ public class Weapon : MonoBehaviour {
 
 	protected int numGemSlots;                              //Number of slots a weapon has for enchantment gems
 	protected List<Gems> attachedGems;                      //List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
-	protected Dictionary<string, float> weaponEnchantments;	//Dict of all of the current enchantment abiltities on the weapon
+	protected Dictionary<string, float> weaponEnchantments; //Dict of all of the current enchantment abiltities on the weapon
+	protected float baseEnchantmentChance = 0.15f;          //Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 
+	static protected Gems targetGem;						//Used in the predicate FindGem() to find all gems of a specific type.  Used for percent-chance calculations 
 
 	// Use this for initialization
 	protected virtual void Start () {
@@ -39,12 +41,54 @@ public class Weapon : MonoBehaviour {
 
 		//I plan to populate this field with enchantment calculations next.  Right now it does nothing.
 		weaponEnchantments = new Dictionary<string, float>();
+		CalculateEnchantmentPercents();
+	}
+
+	//Calculate percent-chances for each enchantment on the weapon
+	//Right now they are all calculated the same way.
+	void CalculateEnchantmentPercents() {
+		//Iterate through all of the gem types
+		for (int i = 0; i < (int)Gems.NumberOfTypes; i++) {
+			//Specify a target gem that is currently being searched for
+			targetGem = (Gems)i;
+			
+			//Find all instances of the target gem on the weapon
+			List<Gems> foundGems = attachedGems.FindAll(FindGem);
+
+			//Add a key to the dictionary initialized to 0 if an instance
+			//of the gem was found
+			string enchantmentKey = ((Enchantments)targetGem).ToString();
+			if (foundGems.Count > 0) {
+				weaponEnchantments.Add(enchantmentKey, 0);
+			}
+
+			//Calculate percent-chance for triggering that enchantment based on
+			//number of gems found.  Implement diminishing returns for each stacked gem.
+			//1 Gem	 = 1/2 * baseEnchantmentChance
+			//2 Gems = 1GemChance + (1/3 * baseEnchantmentChance)
+			//3 Gems = 2GemChance + (1/4 * baseEnchantmentChance)
+			//...etc.
+			for (float j = 1; j <= foundGems.Count; j++) {
+				//Update dictionary value
+				weaponEnchantments[enchantmentKey] += baseEnchantmentChance / (j + 1);
+			}
+		}
+	}
+
+	//Predicate for finding all instances of a target gem
+	private static bool FindGem(Gems currentGem) {
+		if (currentGem == targetGem) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	protected void PrintWeaponStats(string weaponType) {
 		Debug.Log("<b>Weapon Stats (" + weaponType + "):</b>\n<i>Rarity: </i>" + weaponRarity + "\n<i>Damage Min: </i>" + damageMin +
 				  "\n<i>Damage Max: </i>" + damageMax + "\n<i>Crit Chance: </i>" + critChance + "\n<i>Attack Cooldown: </i>" + attackCoolDown +
-				  "\n<i>Hands Required: </i>" + handsRequired + "\n<i>Gems Equipped: </i>" + PrintGems());
+				  "\n<i>Hands Required: </i>" + handsRequired + "\n<i>Gems Equipped: </i>" + PrintGems() + "\n<i>Enchantment Percents: </i>" + PrintDictionary());
     }
 
 	string PrintGems() {
@@ -52,6 +96,15 @@ public class Weapon : MonoBehaviour {
 
 		foreach (Gems gem in attachedGems) {
 			returnValue += "\n     " + gem.ToString();
+		}
+		return returnValue;
+	}
+
+	string PrintDictionary() {
+		string returnValue = "";
+
+		foreach (string key in weaponEnchantments.Keys) {
+			returnValue += "\n     " + key + ": " + weaponEnchantments[key];
 		}
 		return returnValue;
 	}
