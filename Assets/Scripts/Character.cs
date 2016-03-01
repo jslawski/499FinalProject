@@ -20,7 +20,10 @@ public class Character : MonoBehaviour {
 	float decelerationRate = 0.15f;		//(0-1) How quickly a player returns to rest after releasing movement buttons
 
 	Rigidbody thisRigidbody;			//Reference to the attached Rigidbody
-	Collider thisCollider;				//Reference to the attached Collider
+	Collider thisCollider;              //Reference to the attached Collider
+
+	public Weapon currentWeapon;		//Reference to the player's currently equipped weapon
+	protected float attackCooldown = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -39,9 +42,16 @@ public class Character : MonoBehaviour {
 	void Update () {
 		CharacterMovement();
 
+		CharacterAttack();
+
 		//Regenerate mana over time
 		if (mana < maxMana) {
 			mana += Mathf.Min(maxMana - mana, manaRegen * Time.deltaTime);
+		}
+
+		//Cooldown attack to prepare for the next one
+		if (attackCooldown > 0) {
+			attackCooldown -= Time.deltaTime;
 		}
 	}
 
@@ -81,6 +91,31 @@ public class Character : MonoBehaviour {
 		if (thisRigidbody.velocity.magnitude > movespeed) {
 			thisRigidbody.velocity = thisRigidbody.velocity.normalized * movespeed;
 		}
+	}
+
+	void CharacterAttack() {
+		//TODO: If the player doesn't have a weapon equipped, have them attack with their fists instead (make a default weapon)
+		if (currentWeapon != null && attackCooldown <= 0 && Input.GetKeyDown(KeyCode.E)) {
+			attackCooldown = currentWeapon.attackCoolDown;
+			StartCoroutine("Attack");
+		}
+	}
+
+	IEnumerator Attack() {
+		//Attacks will have a slight delay, dependant on the weapon
+		yield return new WaitForSeconds(currentWeapon.attackDelay);
+
+		//Enable the weapon's collider to execute an attack
+		//Enables the mesh renderer as well for debug purposes
+		currentWeapon.gameObject.GetComponent<Collider>().enabled = true;
+		currentWeapon.gameObject.GetComponent<MeshRenderer>().enabled = true;
+
+		//Keep the collider up until the next FixedUpdate in order to calculate damage done to afflicted enemies
+		//Then disable it.
+		yield return new WaitForFixedUpdate();
+		currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
+		currentWeapon.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
 	}
 
 	//void FixedUpdate() {

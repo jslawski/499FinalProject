@@ -6,11 +6,16 @@ public class Halberd : Weapon {
 	//Halberds are long-ranged melee weapons (like a spear with an axe on the end)
 	//They swing relatively slowly, and output a WIDE range of damage.  While they are
 	//inconsistent with damage output, they are very effective at damaging multiple enemies
-	//at once, and have a respectable crit rate.  Halberds require 2 hands to use
+	//at once, and have a respectable crit rate.  Halberds require 2 hands to use.
+	//The hitbox for the halberd is narrow and long.  Its attack delay is fairly long.
 
 	// Use this for initialization
 	protected override void Start () {
 		base.Start();
+
+		hitboxDimensions = new Vector3(1, 1, 2.5f);
+
+		attackDelay = 0.25f;
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.
 		if (weaponRarity == Rarity.Common) {
@@ -27,7 +32,7 @@ public class Halberd : Weapon {
 		}
 
 		handsRequired = 2;
-		attackCoolDown = 0.75f;
+		attackCoolDown = 0.4f;
 
 		//Currently I was thinking we could have all weapons of the same type have the same crit chance
 		//I'm up for having this dependent on rarity as well
