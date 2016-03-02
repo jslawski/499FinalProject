@@ -13,8 +13,6 @@ public class Halberd : Weapon {
 	protected override void Start () {
 		base.Start();
 
-		hitboxDimensions = new Vector3(1, 1, 2.5f);
-
 		attackDelay = 0.25f;
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.

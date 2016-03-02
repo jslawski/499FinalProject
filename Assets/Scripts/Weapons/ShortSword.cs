@@ -13,9 +13,10 @@ public class ShortSword : Weapon {
 	protected override void Start () {
 		base.Start();
 
-		hitboxDimensions = new Vector3(1, 1, 1.5f);
-
 		attackDelay = 0.1f;
+		attackTime = 0.25f;
+		swingAngle = 70;
+		swingAxis = Vector3.up;
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.
 		if (weaponRarity == Rarity.Common) {

@@ -12,8 +12,6 @@ public class BattleAxe : Weapon {
 	protected override void Start () {
 		base.Start();
 
-		hitboxDimensions = new Vector3(2, 1, 1);
-
 		attackDelay = 0.3f;
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.

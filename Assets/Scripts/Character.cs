@@ -8,8 +8,6 @@ public class Character : MonoBehaviour, DamageableObject {
 	public List<StatusEffect> statusEffects;
 	public PlayerUI hud;				//HUD for the player
 
-
-
 	public float maxHealth;				//The player's maximum health
 	public float health;				//The player's current health
 
@@ -24,7 +22,8 @@ public class Character : MonoBehaviour, DamageableObject {
 	Rigidbody thisRigidbody;			//Reference to the attached Rigidbody
 	Collider thisCollider;              //Reference to the attached Collider
 
-	public Weapon currentWeapon;		//Reference to the player's currently equipped weapon
+	public Weapon currentWeapon;        //Reference to the player's currently equipped weapon
+	bool inMeleeAttackCoroutine = false;
 	protected float attackCooldown = 0;
 
 	// Use this for initialization
@@ -37,7 +36,6 @@ public class Character : MonoBehaviour, DamageableObject {
 		maxMana = 400;
 		mana = maxMana;
 		manaRegen = 4f;
-
 	}
 	
 	// Update is called once per frame
@@ -97,27 +95,41 @@ public class Character : MonoBehaviour, DamageableObject {
 	
 	void CharacterAttack() {
 		//TODO: If the player doesn't have a weapon equipped, have them attack with their fists instead (make a default weapon)
-		if (currentWeapon != null && attackCooldown <= 0 && Input.GetKeyDown(KeyCode.E)) {
+		if (currentWeapon != null && !inMeleeAttackCoroutine && attackCooldown <= 0 && Input.GetKeyDown(KeyCode.E)) {
 			attackCooldown = currentWeapon.attackCoolDown;
-			StartCoroutine("Attack");
+			StartCoroutine(MeleeAttack());
 		}
 	}
 
-	IEnumerator Attack() {
+	IEnumerator MeleeAttack() {
+		inMeleeAttackCoroutine = true;
+
 		//Attacks will have a slight delay, dependant on the weapon
 		yield return new WaitForSeconds(currentWeapon.attackDelay);
 
+		Quaternion startRot = Quaternion.Euler(-currentWeapon.swingAngle/2f * currentWeapon.swingAxis);
+		Quaternion endRot = Quaternion.Euler(currentWeapon.swingAngle/2f * currentWeapon.swingAxis);
+		
 		//Enable the weapon's collider to execute an attack
 		//Enables the mesh renderer as well for debug purposes
 		currentWeapon.gameObject.GetComponent<Collider>().enabled = true;
-		currentWeapon.gameObject.GetComponent<MeshRenderer>().enabled = true;
+
+		float timeElapsed = 0;
+		while (timeElapsed < currentWeapon.attackTime) {
+			timeElapsed += Time.deltaTime;
+			float percent = timeElapsed/currentWeapon.attackTime;
+
+			currentWeapon.gameObject.transform.localRotation = Quaternion.Lerp(startRot, endRot, percent);
+
+			yield return 0;
+		}
 
 		//Keep the collider up until the next FixedUpdate in order to calculate damage done to afflicted enemies
 		//Then disable it.
 		yield return new WaitForFixedUpdate();
 		currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
-		currentWeapon.gameObject.GetComponent<MeshRenderer>().enabled = false;
 
+		inMeleeAttackCoroutine = false;
 	}
 	
 	void Move(Vector3 direction) {
@@ -132,5 +144,25 @@ public class Character : MonoBehaviour, DamageableObject {
 
 	public void TakeDamage(float damageIn) {
 		print("<color=red>TakeDamage() not implemented yet.</color>");
+	}
+
+	public void EquipWeapon(Weapon weaponToBeEquipped) {
+		if (currentWeapon != null) {
+			DropWeapon(currentWeapon);
+		}
+
+		currentWeapon = weaponToBeEquipped;
+
+		//Attach the weapon to the player, and fix its transform values
+		weaponToBeEquipped.gameObject.transform.SetParent(transform);
+		weaponToBeEquipped.gameObject.transform.localScale = Vector3.one;
+		weaponToBeEquipped.gameObject.transform.localPosition = Vector3.zero;
+
+		//Disable the weapon collider
+		currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
+	}
+
+	void DropWeapon(Weapon weaponToBeDropped) {
+		print("<color=red>DropWeapon() not implemented yet.</color>");
 	}
 }

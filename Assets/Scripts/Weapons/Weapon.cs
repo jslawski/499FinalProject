@@ -5,17 +5,17 @@ using System.Collections.Generic;
 public enum Rarity { Common, Uncommon, Rare };
 
 public class Weapon : MonoBehaviour {
-
-	public Vector3 hitboxDimensions;						//Dimensions of collider when the weapon is equipped.  Varies for different weapons.
-
-	protected float damageMin;                                //Min damage a weapon can output without a critical hit
-	protected float damageMax;                                //Max damage a weapon can output without a critical hit
+	protected float damageMin;                              //Min damage a weapon can output without a critical hit
+	protected float damageMax;                              //Max damage a weapon can output without a critical hit
 	protected float critChance;                             //Percent chance from 0 - 1 of landing a critical hit
 	protected Rarity weaponRarity;                          //Rarity of the weapon (determines its power)
 	protected int handsRequired;                            //Number of hands needed to hold the weapon (1 or 2)
 
 	public float attackCoolDown;                            //Time in seconds that the player has to wait before being able to attack again
 	public float attackDelay;                               //Time in seconds that the player has to wait between pressing the attack button and the attack getting executed
+	public float attackTime;								//Time in seconds that the weapon takes to complete its swing (and how long its hitbox will be active)
+	public float swingAngle;                                //Total degree change from start to finish for the swinging animation
+	public Vector3 swingAxis;								//Euler axis to rotate about while swinging
 
 	protected int numGemSlots;                              //Number of slots a weapon has for enchantment gems
 	protected List<Gems> attachedGems;                      //List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
