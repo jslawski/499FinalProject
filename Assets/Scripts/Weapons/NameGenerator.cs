@@ -66,7 +66,6 @@ public class NameGenerator : MonoBehaviour {
 
 	//Each enchantment key has a unique noun.  Get that noun from this function.
 	private static string GetNounFromKey(Enchantments key) {
-		//Cast the string to an enum for quicker calculating
 		switch (key) {
 			case Enchantments.ICE_KEY:
 				return "of Frost";
