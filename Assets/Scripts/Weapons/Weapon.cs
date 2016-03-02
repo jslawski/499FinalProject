@@ -22,11 +22,11 @@ public class Weapon : MonoBehaviour {
 	public Vector3 swingAxis;								//Euler axis to rotate about while swinging
 
 	//~~~~~~Enchantments~~~~~~
-	public int numGemSlots;										//Number of slots a weapon has for enchantment gems
-	protected List<Gems> attachedGems;							//List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
-	public Dictionary<Enchantments, float> weaponEnchantments;	//Dict of all of the current enchantment abiltities on the weapon
-	protected float baseEnchantmentChance = 0.15f;				//Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 
-	static protected Gems targetGem;							//Used in the predicate FindGem() to find all gems of a specific type.  Used for percent-chance calculations 
+	public int numGemSlots;									//Number of slots a weapon has for enchantment gems
+	protected List<Gems> attachedGems;                      //List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
+	public Dictionary<string, float> weaponEnchantments;	//Dict of all of the current enchantment abiltities on the weapon
+	protected float baseEnchantmentChance = 0.15f;          //Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 
+	static protected Gems targetGem;						//Used in the predicate FindGem() to find all gems of a specific type.  Used for percent-chance calculations 
 
 	// Use this for initialization
 	protected virtual void Start () {
@@ -45,7 +45,7 @@ public class Weapon : MonoBehaviour {
 		}
 
 		//Populate dictionary with all of the weapon's enchantments
-		weaponEnchantments = new Dictionary<Enchantments, float>();
+		weaponEnchantments = new Dictionary<string, float>();
 		CalculateEnchantmentPercents();
 	}
 
@@ -62,8 +62,9 @@ public class Weapon : MonoBehaviour {
 
 			//Add a key to the dictionary initialized to 0 if an instance
 			//of the gem was found
+			string enchantmentKey = ((Enchantments)targetGem).ToString();
 			if (foundGems.Count > 0) {
-				weaponEnchantments.Add((Enchantments)i, 0);
+				weaponEnchantments.Add(enchantmentKey, 0);
 			}
 
 			//Calculate percent-chance for triggering that enchantment based on
@@ -74,7 +75,7 @@ public class Weapon : MonoBehaviour {
 			//...etc.
 			for (float j = 1; j <= foundGems.Count; j++) {
 				//Update dictionary value
-				weaponEnchantments[(Enchantments)i] += baseEnchantmentChance / (j + 1);
+				weaponEnchantments[enchantmentKey] += baseEnchantmentChance / (j + 1);
 			}
 		}
 	}
@@ -107,7 +108,7 @@ public class Weapon : MonoBehaviour {
 	string PrintDictionary() {
 		string returnValue = "";
 
-		foreach (Enchantments key in weaponEnchantments.Keys) {
+		foreach (string key in weaponEnchantments.Keys) {
 			returnValue += "\n     " + key + ": " + weaponEnchantments[key];
 		}
 		return returnValue;
