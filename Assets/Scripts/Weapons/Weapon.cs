@@ -38,7 +38,7 @@ public class Weapon : MonoBehaviour {
 		//I'd like to explore the possibility of varying the number of slots based on weapon type, weapon rarity, or other factors in the future.
 		//Gem slots will be populated only when the weapon is enchanted at a blacksmith.  For now, I'm just putting random ones in automatically
 		//for testing.
-		numGemSlots = Random.Range(1, 6);
+		numGemSlots = Random.Range(0, 6);
 		attachedGems = new List<Gems>();
 		for (int i = 0; i < numGemSlots; i++) {
 			attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));

@@ -8,15 +8,15 @@ public class NameGenerator : MonoBehaviour {
 		//Cast the string to an enum for quicker calculating
 		switch (key) {
 			case Enchantments.ICE_KEY:
-				return "Frigid";
+				return "Frigid ";
 			case Enchantments.FIRE_KEY:
-				return "Scorched";
+				return "Scorched ";
 			case Enchantments.ADDITIONAL_CRIT_KEY:
-				return "Warped";
+				return "Warped ";
 			case Enchantments.ADDITIONAL_DAMAGE_KEY:
-				return "Refined";
+				return "Refined ";
 			case Enchantments.WOUNDING_KEY:
-				return "Pained";
+				return "Pained ";
 			default:
 				return "<color=red>ERROR: Adjective could not be determined!</color>";
 		}
@@ -26,13 +26,16 @@ public class NameGenerator : MonoBehaviour {
 		//If the weapon has 3 or more unique enchantments, the adjective
 		//becomes one of the following words:
 		if (thisWeapon.weaponEnchantments.Count == 5) {
-			return "Chromatic";
+			return "Chromatic ";
 		}
 		else if (thisWeapon.weaponEnchantments.Count == 4) {
-			return "Tetrad"; //I'd like to change this...
+			return "Tetrad "; //I'd like to change this...
 		}
 		else if (thisWeapon.weaponEnchantments.Count == 3) {
-			return "Triad"; //I'd like to change this...
+			return "Triad "; //I'd like to change this...
+		}
+		else if (thisWeapon.weaponEnchantments.Count == 0) {
+			return "";
 		}
 		//Otherwise, find the enchantment that is the smaller of the two in terms of percent-chance
 		else {
@@ -51,13 +54,13 @@ public class NameGenerator : MonoBehaviour {
 
 	private static string DetermineWeaponGrade(Weapon thisWeapon) {
 		if (thisWeapon.weaponRarity == Rarity.Common) {
-			return "Shoddy";
+			return "Shoddy ";
 		}
 		else if (thisWeapon.weaponRarity == Rarity.Uncommon) {
-			return "Fine";
+			return "Fine ";
 		}
 		else if (thisWeapon.weaponRarity == Rarity.Rare) {
-			return "Superior";
+			return "Superior ";
 		}
 		else {
 			return "<color=red>ERROR: Could not determine weapon grade!</color>";
@@ -69,15 +72,15 @@ public class NameGenerator : MonoBehaviour {
 		//Cast the string to an enum for quicker calculating
 		switch (key) {
 			case Enchantments.ICE_KEY:
-				return "of Frost";
+				return " of Frost";
 			case Enchantments.FIRE_KEY:
-				return "of Blazing";
+				return " of Blazing";
 			case Enchantments.ADDITIONAL_CRIT_KEY:
-				return "of Distortion";
+				return " of Distortion";
 			case Enchantments.ADDITIONAL_DAMAGE_KEY:
-				return "of Power";
+				return " of Power";
 			case Enchantments.WOUNDING_KEY:
-				return "of Wounding";
+				return " of Wounding";
 			default:
 				return "<color=red>ERROR: Noun could not be determined!</color>";
 		}
@@ -87,6 +90,7 @@ public class NameGenerator : MonoBehaviour {
 		//A weapon will have no distinguishing noun if:
 		//1) The weapon has 3 or more gem slots, and each is filled with a unique enchantment
 		//2) The weapon has only 1 unique enchantment filling all of its slots
+		//3) The weapon has no enchantments
 		if (thisWeapon.weaponEnchantments.Count == 5) {
 			return "";
 		}
@@ -97,6 +101,9 @@ public class NameGenerator : MonoBehaviour {
 			return "";
 		}
 		else if (thisWeapon.weaponEnchantments.Count == 1) {
+			return "";
+		}
+		else if (thisWeapon.weaponEnchantments.Count == 0) {
 			return "";
 		}
 		//Otherwise, find the enchantment that has the largest percent-chance value
@@ -127,7 +134,7 @@ public class NameGenerator : MonoBehaviour {
 		weaponGrade = DetermineWeaponGrade(thisWeapon);
 		noun = DetermineNoun(thisWeapon);
 
-		name = adjective + " " + weaponGrade + " " + weaponType + " " + noun;
+		name = adjective + weaponGrade + weaponType + noun;
 		print("NAME: " + name);
 		return name;
 	}
