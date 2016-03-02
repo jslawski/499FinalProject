@@ -14,9 +14,9 @@ public class WeaponTextZone : MonoBehaviour {
 	}
 	
 	//Get customized text for each enchantment
-	string GetEnchantmentStringValue(string key) {
+	string GetEnchantmentStringValue(Enchantments key) {
 		//Cast the string to an enum for quicker calculating
-		switch ((Enchantments)System.Enum.Parse(typeof(Enchantments), key)) {
+		switch (key) {
 			case Enchantments.ICE_KEY:
 				return "<b><color=aqua>Ice: " + thisWeapon.weaponEnchantments[key] * 100 + "%</color></b>";
 			case Enchantments.FIRE_KEY:
@@ -51,7 +51,7 @@ public class WeaponTextZone : MonoBehaviour {
 
 		//Print stats of all enchantments
 		int enchantmentCount = 0; //Keep track of the number of enchantments processed to determine newlines
-		foreach (string key in thisWeapon.weaponEnchantments.Keys) {
+		foreach (Enchantments key in thisWeapon.weaponEnchantments.Keys) {
 			//Only 2 enchantments per line
 			enchantmentCount++;
 			if (enchantmentCount % 3 == 0) {

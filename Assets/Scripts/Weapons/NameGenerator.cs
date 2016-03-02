@@ -4,9 +4,9 @@ using System.Collections;
 public class NameGenerator : MonoBehaviour {
 
 	//Each enchantment key has a unique adjective.  Get that adjective from this function.
-	private static string GetAdjectiveFromKey(string key) {
+	private static string GetAdjectiveFromKey(Enchantments key) {
 		//Cast the string to an enum for quicker calculating
-		switch ((Enchantments)System.Enum.Parse(typeof(Enchantments), key)) {
+		switch (key) {
 			case Enchantments.ICE_KEY:
 				return "Frigid";
 			case Enchantments.FIRE_KEY:
@@ -36,9 +36,9 @@ public class NameGenerator : MonoBehaviour {
 		}
 		//Otherwise, find the enchantment that is the smaller of the two in terms of percent-chance
 		else {
-			string currentSmallestKey = "placeholder";
+			Enchantments currentSmallestKey = Enchantments.NUMBER_OF_ENCHANTMENTS;
 			float currentSmallestValue = 1000;
-			foreach(string key in thisWeapon.weaponEnchantments.Keys) {
+			foreach(Enchantments key in thisWeapon.weaponEnchantments.Keys) {
 				if (thisWeapon.weaponEnchantments[key] < currentSmallestValue) {
 					currentSmallestKey = key;
 					currentSmallestValue = thisWeapon.weaponEnchantments[key];
@@ -65,9 +65,9 @@ public class NameGenerator : MonoBehaviour {
 	}
 
 	//Each enchantment key has a unique noun.  Get that noun from this function.
-	private static string GetNounFromKey(string key) {
+	private static string GetNounFromKey(Enchantments key) {
 		//Cast the string to an enum for quicker calculating
-		switch ((Enchantments)System.Enum.Parse(typeof(Enchantments), key)) {
+		switch (key) {
 			case Enchantments.ICE_KEY:
 				return "of Frost";
 			case Enchantments.FIRE_KEY:
@@ -101,9 +101,9 @@ public class NameGenerator : MonoBehaviour {
 		}
 		//Otherwise, find the enchantment that has the largest percent-chance value
 		else {
-			string currentLargestKey = "placeholder";
+			Enchantments currentLargestKey = Enchantments.NUMBER_OF_ENCHANTMENTS;
 			float currentLargestValue = 0;
-			foreach (string key in thisWeapon.weaponEnchantments.Keys) {
+			foreach (Enchantments key in thisWeapon.weaponEnchantments.Keys) {
 				if (thisWeapon.weaponEnchantments[key] >= currentLargestValue) {
 					currentLargestKey = key;
 					currentLargestValue = thisWeapon.weaponEnchantments[key];
