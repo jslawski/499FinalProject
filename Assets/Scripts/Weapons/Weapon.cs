@@ -22,7 +22,7 @@ public class Weapon : MonoBehaviour {
 	public Vector3 swingAxis;								//Euler axis to rotate about while swinging
 
 	//~~~~~~Enchantments~~~~~~
-	protected int numGemSlots;                              //Number of slots a weapon has for enchantment gems
+	public int numGemSlots;									//Number of slots a weapon has for enchantment gems
 	protected List<Gems> attachedGems;                      //List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
 	public Dictionary<string, float> weaponEnchantments;	//Dict of all of the current enchantment abiltities on the weapon
 	protected float baseEnchantmentChance = 0.15f;          //Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 

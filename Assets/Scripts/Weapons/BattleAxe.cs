@@ -35,7 +35,7 @@ public class BattleAxe : Weapon {
 		//I'm up for having this dependent on rarity as well
 		critChance = 0.03f;
 
-		weaponName = "Battle Axe";
+		weaponName = NameGenerator.GenerateName(this, "Battle Axe");
 
 		PrintWeaponStats("Battle Axe");
 	}
