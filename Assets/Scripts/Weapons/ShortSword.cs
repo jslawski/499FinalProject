@@ -13,6 +13,7 @@ public class ShortSword : Weapon {
 	protected override void Start () {
 		base.Start();
 
+		weaponDimensions = Vector3.one;
 		attackDelay = 0.1f;
 		attackTime = 0.25f;
 		swingAngle = 70;

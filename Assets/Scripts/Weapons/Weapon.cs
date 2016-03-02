@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public enum Rarity { Common, Uncommon, Rare };
 
 public class Weapon : MonoBehaviour {
+	public Vector3 weaponDimensions;						//Size and shape of the weapon
+
 	protected float damageMin;                              //Min damage a weapon can output without a critical hit
 	protected float damageMax;                              //Max damage a weapon can output without a critical hit
 	protected float critChance;                             //Percent chance from 0 - 1 of landing a critical hit
