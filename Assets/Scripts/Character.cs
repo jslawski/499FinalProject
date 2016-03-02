@@ -155,7 +155,7 @@ public class Character : MonoBehaviour, DamageableObject {
 
 		//Attach the weapon to the player, and fix its transform values
 		weaponToBeEquipped.gameObject.transform.SetParent(transform);
-		weaponToBeEquipped.gameObject.transform.localScale = Vector3.one;
+		weaponToBeEquipped.gameObject.transform.localScale = weaponToBeEquipped.weaponDimensions;
 		weaponToBeEquipped.gameObject.transform.localPosition = Vector3.zero;
 
 		//Disable the weapon collider

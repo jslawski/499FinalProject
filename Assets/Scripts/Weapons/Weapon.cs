@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour {
 	public string weaponName;								//Full name of the weapon
 	public float damageMin;									//Min damage a weapon can output without a critical hit
 	public float damageMax;									//Max damage a weapon can output without a critical hit
+	public Vector3 weaponDimensions;						//Size and shape of the weapon
 	protected float critChance;                             //Percent chance from 0 - 1 of landing a critical hit
 	public Rarity weaponRarity;								//Rarity of the weapon (determines its power)
 	protected int handsRequired;                            //Number of hands needed to hold the weapon (1 or 2)

@@ -13,7 +13,11 @@ public class Halberd : Weapon {
 	protected override void Start () {
 		base.Start();
 
+		weaponDimensions = Vector3.one * 1.5f;
 		attackDelay = 0.25f;
+		attackTime = 0.75f;
+		swingAngle = 150;
+		swingAxis = Vector3.up;
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.
 		if (weaponRarity == Rarity.Common) {
