@@ -9,14 +9,18 @@ public class WeaponText : MonoBehaviour {
 	}
 
 	IEnumerator BounceText() {
-		float moveSpeed = 0.01f;
-		int framesBeforeDirectionChange = 25;
+		float amplitude = 0.25f;
+		float timeBeforeDirectionChange = 1.5f;
+		float timeElapsed = 0;
+
+		Vector3 startPos = transform.position;
+
 		while (true) {
-			for(int i = 0; i < framesBeforeDirectionChange; i++) {
-				transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + moveSpeed);
-				yield return null;
-			}
-			moveSpeed *= -1;
+			timeElapsed += Time.deltaTime;
+
+			transform.position = startPos + Vector3.forward * amplitude * Mathf.Sin(2 * Mathf.PI * timeElapsed / timeBeforeDirectionChange);
+
+			yield return 0;
 		}
 	}
 	
