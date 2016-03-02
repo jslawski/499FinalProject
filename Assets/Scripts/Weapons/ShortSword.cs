@@ -39,6 +39,8 @@ public class ShortSword : Weapon {
 		//I'm up for having this dependent on rarity as well
 		critChance = 0.085f;
 
+		weaponName = "Short Sword";
+
 		PrintWeaponStats("Short Sword");
 	}
 	

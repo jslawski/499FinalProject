@@ -5,21 +5,25 @@ using System.Collections.Generic;
 public enum Rarity { Common, Uncommon, Rare };
 
 public class Weapon : MonoBehaviour {
-	protected float damageMin;                              //Min damage a weapon can output without a critical hit
-	protected float damageMax;                              //Max damage a weapon can output without a critical hit
+	//~~~~~~Weapon Stats~~~~~~
+	public string weaponName;								//Full name of the weapon
+	public float damageMin;									//Min damage a weapon can output without a critical hit
+	public float damageMax;									//Max damage a weapon can output without a critical hit
 	protected float critChance;                             //Percent chance from 0 - 1 of landing a critical hit
-	protected Rarity weaponRarity;                          //Rarity of the weapon (determines its power)
+	public Rarity weaponRarity;								//Rarity of the weapon (determines its power)
 	protected int handsRequired;                            //Number of hands needed to hold the weapon (1 or 2)
 
+	//~~~~~~Attacking~~~~~~
 	public float attackCoolDown;                            //Time in seconds that the player has to wait before being able to attack again
 	public float attackDelay;                               //Time in seconds that the player has to wait between pressing the attack button and the attack getting executed
 	public float attackTime;								//Time in seconds that the weapon takes to complete its swing (and how long its hitbox will be active)
 	public float swingAngle;                                //Total degree change from start to finish for the swinging animation
 	public Vector3 swingAxis;								//Euler axis to rotate about while swinging
 
+	//~~~~~~Enchantments~~~~~~
 	protected int numGemSlots;                              //Number of slots a weapon has for enchantment gems
 	protected List<Gems> attachedGems;                      //List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
-	protected Dictionary<string, float> weaponEnchantments; //Dict of all of the current enchantment abiltities on the weapon
+	public Dictionary<string, float> weaponEnchantments;	//Dict of all of the current enchantment abiltities on the weapon
 	protected float baseEnchantmentChance = 0.15f;          //Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 
 	static protected Gems targetGem;						//Used in the predicate FindGem() to find all gems of a specific type.  Used for percent-chance calculations 
 
@@ -39,7 +43,7 @@ public class Weapon : MonoBehaviour {
 			attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));
 		}
 
-		//I plan to populate this field with enchantment calculations next.  Right now it does nothing.
+		//Populate dictionary with all of the weapon's enchantments
 		weaponEnchantments = new Dictionary<string, float>();
 		CalculateEnchantmentPercents();
 	}

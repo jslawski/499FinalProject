@@ -4,7 +4,9 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 	public static GameManager S;			//Singleton reference
 
-	public GameObject damageTextPrefab;		//Used to instantiate damage display
+	public GameObject damageTextPrefab;     //Used to instantiate damage display
+	public GameObject weaponTextPrefab;     //Used to instantiate weapon text
+	private GameObject currentWeaponText;	//Used to keep track of the weapon text currently being displayed
 
 	// Use this for initialization
 	void Awake () {
@@ -21,5 +23,17 @@ public class GameManager : MonoBehaviour {
 		GameObject newDamageText = Instantiate(damageTextPrefab, position, new Quaternion()) as GameObject;
 		DamageDisplay damageDisplay = newDamageText.GetComponent<DamageDisplay>();
 		damageDisplay.SetDamageValue(damageDone);
+	}
+
+	//Creates a new instance of weapon text, and keeps track of the instance that is currently
+	//being displayed
+	public void DisplayWeaponText(Vector3 position, string text) {
+		currentWeaponText = Instantiate(weaponTextPrefab, position, new Quaternion()) as GameObject;
+		currentWeaponText.GetComponent<TextMesh>().text = text;
+	}
+
+	//Destroy the current instance of weapon text
+	public void DestroyWeaponText() {
+		Destroy(currentWeaponText);
 	}
 }
