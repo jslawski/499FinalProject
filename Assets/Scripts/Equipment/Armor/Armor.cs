@@ -6,30 +6,63 @@ using System.Collections.Generic;
 //Potentially, heavier armor would make the player move slower.  I'm not sure if that's enough variation to
 //warrant completely different types of armor, though.  
 
-public class Armor : MonoBehaviour, EnchantableObject {
+public class Armor : MonoBehaviour, Equipment {
 	//~~~~~~Armor Stats~~~~~~
-	public string armorName;									//Full name of the armor
-	public float defenseMin;									//Minimum amount of damage the piece of armor can prevent
-	public float defenseMax;									//Maximum amount of damage the piece of armor can prevent
-	public Rarity armorRarity;									//Rarity of the armor
+	protected string armorName;									//Full name of the armor
+	protected float defenseMin;									//Minimum amount of damage the piece of armor can prevent
+	protected float defenseMax;									//Maximum amount of damage the piece of armor can prevent
+	protected Rarity armorRarity;								//Rarity of the armor
 
 	//~~~~~~Enchantments~~~~~~
-	//JPS:  Refactor this stuff to be in the EnchantableObject Interface
-	public int numGemSlots;										//Number of slots a armor has for enchantment gems
+	protected int armorGemSlots;								//Number of slots a armor has for enchantment gems
 	protected List<Gems> attachedGems;							//List of all gems attached to the armor.  Used for calculating and storing values in armorEnchantments
 	public Dictionary<Enchantments, float> armorEnchantments;	//Dict of all of the current enchantment abiltities on the armor
-	protected float baseEnchantmentChance = 0.10f;				//Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 
+	protected float baseEnchantmentChance = 0.15f;				//Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 
 	static protected Gems targetGem;							//Used in the predicate FindGem() to find all gems of a specific type.  Used for percent-chance calculations 
+
+	/*~~~~~~~~~~Properties~~~~~~~~~~*/
+	public string equipmentName {
+		get { return armorName; }
+	}
+
+	public string equipmentType {
+		get { return "Armor"; }
+	}
+
+	//No different armor types (yet?)
+	public string equipmentObject {
+		get { return ""; }
+	}
+
+	public float minValue {
+		get { return defenseMin; }
+	}
+
+	public float maxValue {
+		get { return defenseMax; }
+	}
+
+	public Rarity rarity {
+		get { return armorRarity; }
+	}
+
+	public Dictionary<Enchantments, float> enchantments {
+		get { return armorEnchantments; }
+	}
+
+	public int numGemSlots {
+		get { return armorGemSlots; }
+	}
 
 	// Use this for initialization
 	void Start () {
 		//Like weapons, in the future rarity will be determined as soon as the armor is taken out of a chest
 		//Just set it here for debugging purposes for now
-		armorRarity = Rarity.Rare;
+		armorRarity = (Rarity)Random.Range(0, 3);
 
 		//For debugging purposes, populate with random gem slots and gems.  
 		//This will later vary based on rarity and potentially type of armor (if we decide to have different types)
-		numGemSlots = Random.Range(0, 6);
+		armorGemSlots = Random.Range(0, 6);
 		attachedGems = new List<Gems>();
 		for (int i = 0; i < numGemSlots; i++) {
 			attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));
@@ -39,8 +72,52 @@ public class Armor : MonoBehaviour, EnchantableObject {
 		armorEnchantments = new Dictionary<Enchantments, float>();
 		CalculateEnchantmentPercents();
 
+		DetermineDefenseStats();
+
 		//Generate the name of the armor given the randomly generated values above
 		armorName = NameGenerator.GenerateName(this);
+
+		PrintArmorStats();
+	}
+
+	protected void PrintArmorStats() {
+		Debug.Log("<b>Armor Stats:</b>\n<i>Rarity: </i>" + armorRarity + "\n<i>Defense Min: </i>" + defenseMin +
+				  "\n<i>Defense Max: </i>" + defenseMax + "\n<i>Gems Equipped: </i>" + PrintGems() + "\n<i>Enchantment Percents: </i>" + PrintDictionary());
+	}
+
+	string PrintGems() {
+		string returnValue = "";
+
+		foreach (Gems gem in attachedGems) {
+			returnValue += "\n     " + gem.ToString();
+		}
+		return returnValue;
+	}
+
+	string PrintDictionary() {
+		string returnValue = "";
+
+		foreach (Enchantments key in armorEnchantments.Keys) {
+			returnValue += "\n     " + key + ": " + armorEnchantments[key];
+		}
+		return returnValue;
+	}
+
+	//Determine the min and max defense values for this piece of armor
+	void DetermineDefenseStats() {
+		//These are arbitrarly picked numbers.  They can change as we see fit.
+		if (armorRarity == Rarity.Common) {
+			defenseMin = Random.Range(20, 30);
+			defenseMax = Random.Range(40, 50);
+		}
+		else if (armorRarity == Rarity.Uncommon) {
+			defenseMin = Random.Range(70, 80);
+			defenseMax = Random.Range(90, 100);
+		}
+		else if (armorRarity == Rarity.Rare) {
+			defenseMin = Random.Range(130, 140);
+			defenseMax = Random.Range(160, 180);
+		}
 	}
 
 	//Calculate percent-chances for each enchantment on the armor
@@ -81,10 +158,5 @@ public class Armor : MonoBehaviour, EnchantableObject {
 		else {
 			return false;
 		}
-	}
-
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }

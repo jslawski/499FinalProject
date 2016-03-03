@@ -12,7 +12,7 @@ public class BattleAxe : Weapon {
 	protected override void Start () {
 		base.Start();
 
-		weaponType = "Battle Axe";
+		weaponType = " Battle Axe";
 
 		attackDelay = 0.3f;
 

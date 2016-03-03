@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 public enum Rarity { Common, Uncommon, Rare };
 
-public class Weapon : MonoBehaviour, EnchantableObject {
+public class Weapon : MonoBehaviour, Equipment {
 	//~~~~~~Weapon Stats~~~~~~
-	public string weaponName;                               //Full name of the weapon
-	public string weaponType;								//Type of weapon (battle axe, halberd, dagger, etc.)
-	public float damageMin;									//Min damage a weapon can output without a critical hit
-	public float damageMax;									//Max damage a weapon can output without a critical hit
-	public Vector3 weaponDimensions;						//Size and shape of the weapon
-	protected float critChance;                             //Percent chance from 0 - 1 of landing a critical hit
-	public Rarity weaponRarity;								//Rarity of the weapon (determines its power)
-	protected int handsRequired;                            //Number of hands needed to hold the weapon (1 or 2)
+	protected string weaponName;								//Full name of the weapon
+	public string weaponType;									//Type of weapon (battle axe, halberd, dagger, etc.).  Used for name generation. Always preceded with a space
+	protected float damageMin;									//Min damage a weapon can output without a critical hit
+	protected float damageMax;									//Max damage a weapon can output without a critical hit
+	public Vector3 weaponDimensions;							//Size and shape of the weapon
+	protected float critChance;									//Percent chance from 0 - 1 of landing a critical hit
+	protected Rarity weaponRarity;								//Rarity of the weapon (determines its power)
+	protected int handsRequired;								//Number of hands needed to hold the weapon (1 or 2)
 
 	//~~~~~~Attacking~~~~~~
 	public float attackCoolDown;                            //Time in seconds that the player has to wait before being able to attack again
@@ -23,24 +23,56 @@ public class Weapon : MonoBehaviour, EnchantableObject {
 	public Vector3 swingAxis;                               //Euler axis to rotate about while swinging
 
 	//~~~~~~Enchantments~~~~~~
-	//JPS:  Refactor this stuff to be in the EnchantableObject Interface
-	public int numGemSlots;										//Number of slots a weapon has for enchantment gems
+	protected int weaponGemSlots;								//Number of slots a weapon has for enchantment gems
 	protected List<Gems> attachedGems;							//List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
 	public Dictionary<Enchantments, float> weaponEnchantments;	//Dict of all of the current enchantment abiltities on the weapon
 	protected float baseEnchantmentChance = 0.15f;				//Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 
-	static protected Gems targetGem;							//Used in the predicate FindGem() to find all gems of a specific type.  Used for percent-chance calculations 
+	static protected Gems targetGem;                            //Used in the predicate FindGem() to find all gems of a specific type.  Used for percent-chance calculations 
+
+	/*~~~~~~~~~~Properties~~~~~~~~~~*/
+	public string equipmentName {
+		get { return weaponName; }
+	}
+
+	public string equipmentType {
+		get { return "Weapon"; }
+	}
+
+	public float minValue {
+		get { return damageMin; }
+	}
+
+	public float maxValue {
+		get { return damageMax; }
+	}
+
+	public Rarity rarity {
+		get { return weaponRarity; }
+	}
+
+	public Dictionary<Enchantments, float> enchantments {
+		get { return weaponEnchantments; }
+	}
+
+	public string equipmentObject {
+		get { return weaponType; }
+	}
+
+	public int numGemSlots {
+		get { return weaponGemSlots; }
+	}
 
 	// Use this for initialization
 	protected virtual void Start () {
 		//I would like to have this dynamically determined, sometimes by random chance, and other times depending on the chest it comes out of
 		//Having a "rare chest" that has a guaranteed rare item would be kind of cool.  For now, the rarity is preset in this function
-		weaponRarity = Rarity.Rare;
+		weaponRarity = (Rarity)Random.Range(0, 3);
 
 		//For testing purposes, each weapon is given a random number of enchantment slots, with a random selection of gems.  
 		//I'd like to explore the possibility of varying the number of slots based on weapon type, weapon rarity, or other factors in the future.
 		//Gem slots will be populated only when the weapon is enchanted at a blacksmith.  For now, I'm just putting random ones in automatically
 		//for testing.
-		numGemSlots = Random.Range(0, 6);
+		weaponGemSlots = Random.Range(0, 6);
 		attachedGems = new List<Gems>();
 		for (int i = 0; i < numGemSlots; i++) {
 			attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));

@@ -13,7 +13,7 @@ public class Halberd : Weapon {
 	protected override void Start () {
 		base.Start();
 
-		weaponType = "Halberd";
+		weaponType = " Halberd";
 
 		weaponDimensions = Vector3.one * 1.5f;
 		attackDelay = 0.25f;

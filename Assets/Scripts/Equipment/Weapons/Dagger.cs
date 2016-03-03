@@ -12,7 +12,7 @@ public class Dagger : Weapon {
 	protected override void Start () {
 		base.Start();
 
-		weaponType = "Dagger";
+		weaponType = " Dagger";
 
 		attackDelay = 0.05f;
 

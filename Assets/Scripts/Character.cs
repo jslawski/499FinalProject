@@ -26,6 +26,8 @@ public class Character : MonoBehaviour, DamageableObject {
 	bool inMeleeAttackCoroutine = false;
 	protected float attackCooldown = 0;
 
+	public Armor currentArmor;			//Reference to the player's currently equipped armor
+
 	// Use this for initialization
 	void Start () {
 		thisRigidbody = GetComponent<Rigidbody>();
@@ -162,7 +164,28 @@ public class Character : MonoBehaviour, DamageableObject {
 		currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
 	}
 
+	public void EquipArmor(Armor armorToBeEquipped) {
+		if (currentArmor != null) {
+			DropArmor(currentArmor);
+		}
+
+		currentArmor = armorToBeEquipped;
+
+		//Attach the armor to the player, and turn off its mesh renderer.
+		//And armor equip can be represented by a change in the player model.
+		//Once the armor is "equipped," the object no longer needs to be rendered.
+		armorToBeEquipped.gameObject.transform.SetParent(transform);
+		armorToBeEquipped.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+		//Disable the armor collider
+		currentArmor.gameObject.GetComponent<Collider>().enabled = false;
+	}
+
 	void DropWeapon(Weapon weaponToBeDropped) {
 		print("<color=red>DropWeapon() not implemented yet.</color>");
+	}
+
+	void DropArmor(Armor armorToBeDropped) {
+		print("<color=red>DropArmor() not implemented yet.</color>");
 	}
 }

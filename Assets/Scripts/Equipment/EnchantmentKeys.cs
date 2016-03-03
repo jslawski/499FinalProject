@@ -5,9 +5,9 @@ using System.Collections;
 1.  Add the gem to the Gems enum, and the Enchantment key to the Enchantments enum in this file.
     Make sure the gem and the enchantment key correspond to the same numerical position!
 
-2.  Add the necessary display text in WeaponTextZone::GetEnchantmentStringValue() for the new enchantment
+2.  Add the necessary display text in EquipmentTextZone::GetEnchantmentStringValue() for the new enchantment
 
-3.  Add an adjective and noun for both Weapons AND Armor in NameGenerator::Get*AdjectiveFromKey() and NameGenerator::Get*NounFromKey()  
+3.  Add an adjective and noun for both Weapons AND Armor in NameGenerator::GetAdjectiveFromKey() and NameGenerator::GetNounFromKey()  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 //These gem names are arbitrary.  We can change them to whatever we want
