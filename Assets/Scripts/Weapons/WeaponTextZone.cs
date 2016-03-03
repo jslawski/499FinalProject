@@ -5,12 +5,10 @@ using System.Collections.Generic;
 public class WeaponTextZone : MonoBehaviour {
 
 	Weapon thisWeapon;
-	TextMesh thisText;
 
 	// Use this for initialization
 	void Start () {
 		thisWeapon = GetComponentInParent<Weapon>();
-		thisText = GetComponent<TextMesh>();
 	}
 	
 	//Get customized text for each enchantment
@@ -57,6 +55,7 @@ public class WeaponTextZone : MonoBehaviour {
 			if (enchantmentCount % 3 == 0) {
 				textValue += "\n";
 			}
+			//Otherwise separate by 5 spaces
 			else if (enchantmentCount != 1) {
 				textValue += "     ";
 			}
@@ -70,15 +69,18 @@ public class WeaponTextZone : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.tag == "Player") {
-			//TODO:  I really want to change this so that it only has to generate text once,
+			//JPS:   I really want to change this so that it only has to generate text once,
 			//		 but putting GenerateText() in Start() might yield unreliable results in terms
 			//		 of when certain values in thisWeapon are available.
 			string displayText = GenerateText();
-			Vector3 textPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z + 5); //Arbitrary 5 offset for now
+			Vector3 textPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z + 5); //JPS: Arbitrary 5 offset for now
 			GameManager.S.DisplayWeaponText(textPosition, displayText);
 		}
 	}
 
+	//JPS: Known bug.  Equipment can't be too close to each other.  If a player is able to 
+	//walking into two triggers without exiting either of them, then both texts will display,
+	//but only one will be destroyed when the player exists the triggers
 	void OnTriggerExit(Collider other) {
 		if (other.gameObject.tag == "Player") {
 			GameManager.S.DestroyWeaponText();

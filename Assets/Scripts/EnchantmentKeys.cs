@@ -1,6 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*~~~~~~~STEPS TO IMPLEMENTING A NEW ENCHANTMENT~~~~~~~
+1.  Add the gem to the Gems enum, and the Enchantment key to the Enchantments enum in this file.
+    Make sure the gem and the enchantment key correspond to the same numerical position!
+
+2.  Add the necessary display text in WeaponTextZone::GetEnchantmentStringValue() for the new enchantment
+
+3.  Add an adjective and noun for both Weapons AND Armor in NameGenerator::Get*AdjectiveFromKey() and NameGenerator::Get*NounFromKey()  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 //These gem names are arbitrary.  We can change them to whatever we want
 //Gems used for enchanting a weapon:
 public enum Gems {	Aquamarine,		//Ice
@@ -35,7 +44,7 @@ public enum Enchantments {
 	//Stone:  Fluorite
 	//Weapon:			Contains a percentage (0-1) that is added to the weapon's critChance before damage is calculated every attack.
 	//Armor/Enemies:	Contains a percentage (0-1) that is added to the character's critChance before damage is calculated every attack.
-	//					NOTE: Do we want 2 different critChances? A base one for the character and another for the weapon?  They could both
+	//					JPS:  Do we want 2 different critChances? A base one for the character and another for the weapon?  They could both
 	//						  be rolled individually every attack so they're not additive.  We'll have to discuss.
 	ADDITIONAL_CRIT_KEY,
 

@@ -13,6 +13,8 @@ public class ShortSword : Weapon {
 	protected override void Start () {
 		base.Start();
 
+		weaponType = "Short Sword";
+
 		weaponDimensions = Vector3.one;
 		attackDelay = 0.1f;
 		attackTime = 0.25f;
@@ -40,7 +42,7 @@ public class ShortSword : Weapon {
 		//I'm up for having this dependent on rarity as well
 		critChance = 0.085f;
 
-		weaponName = NameGenerator.GenerateName(this, "Short Sword");
+		weaponName = NameGenerator.GenerateName(this);
 
 		PrintWeaponStats("Short Sword");
 	}

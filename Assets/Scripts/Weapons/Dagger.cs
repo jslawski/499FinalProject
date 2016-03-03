@@ -12,6 +12,8 @@ public class Dagger : Weapon {
 	protected override void Start () {
 		base.Start();
 
+		weaponType = "Dagger";
+
 		attackDelay = 0.05f;
 
 		//These are arbitrarly picked numbers.  They can change as we see fit.
@@ -35,7 +37,7 @@ public class Dagger : Weapon {
 		//I'm up for having this dependent on rarity as well
 		critChance = 0.05f;
 
-		weaponName = NameGenerator.GenerateName(this, "Dagger");
+		weaponName = NameGenerator.GenerateName(this);
 
 		PrintWeaponStats("Dagger");
 	}

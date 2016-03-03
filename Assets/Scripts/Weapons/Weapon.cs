@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 public enum Rarity { Common, Uncommon, Rare };
 
-public class Weapon : MonoBehaviour {
+public class Weapon : MonoBehaviour, EnchantableObject {
 	//~~~~~~Weapon Stats~~~~~~
-	public string weaponName;								//Full name of the weapon
+	public string weaponName;                               //Full name of the weapon
+	public string weaponType;								//Type of weapon (battle axe, halberd, dagger, etc.)
 	public float damageMin;									//Min damage a weapon can output without a critical hit
 	public float damageMax;									//Max damage a weapon can output without a critical hit
 	public Vector3 weaponDimensions;						//Size and shape of the weapon
@@ -19,14 +20,15 @@ public class Weapon : MonoBehaviour {
 	public float attackDelay;                               //Time in seconds that the player has to wait between pressing the attack button and the attack getting executed
 	public float attackTime;								//Time in seconds that the weapon takes to complete its swing (and how long its hitbox will be active)
 	public float swingAngle;                                //Total degree change from start to finish for the swinging animation
-	public Vector3 swingAxis;								//Euler axis to rotate about while swinging
+	public Vector3 swingAxis;                               //Euler axis to rotate about while swinging
 
 	//~~~~~~Enchantments~~~~~~
-	public int numGemSlots;									//Number of slots a weapon has for enchantment gems
-	protected List<Gems> attachedGems;                      //List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
+	//JPS:  Refactor this stuff to be in the EnchantableObject Interface
+	public int numGemSlots;										//Number of slots a weapon has for enchantment gems
+	protected List<Gems> attachedGems;							//List of all gems attached to the weapon.  Used for calculating and storing values in weaponEnchantments
 	public Dictionary<Enchantments, float> weaponEnchantments;	//Dict of all of the current enchantment abiltities on the weapon
-	protected float baseEnchantmentChance = 0.15f;          //Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 
-	static protected Gems targetGem;						//Used in the predicate FindGem() to find all gems of a specific type.  Used for percent-chance calculations 
+	protected float baseEnchantmentChance = 0.15f;				//Base scalar (0-1) that enchantment calculations use to determine percent-chance of enchantment triggering 
+	static protected Gems targetGem;							//Used in the predicate FindGem() to find all gems of a specific type.  Used for percent-chance calculations 
 
 	// Use this for initialization
 	protected virtual void Start () {
@@ -51,7 +53,7 @@ public class Weapon : MonoBehaviour {
 
 	//Calculate percent-chances for each enchantment on the weapon
 	//Right now they are all calculated the same way.
-	void CalculateEnchantmentPercents() {
+	public void CalculateEnchantmentPercents() {
 		//Iterate through all of the gem types
 		for (int i = 0; i < (int)Gems.NumberOfTypes; i++) {
 			//Specify a target gem that is currently being searched for
@@ -131,7 +133,7 @@ public class Weapon : MonoBehaviour {
 			attackDamage = attackDamage * 2;
 		}
 
-		//TODO: Apply calculations for enchantments, such as additional crit chance, freezing chance, etc.
+		//JPS: Apply calculations for enchantments, such as additional crit chance, freezing chance, etc.
 
 		other.TakeDamage(attackDamage);
 	}

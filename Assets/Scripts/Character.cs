@@ -94,7 +94,7 @@ public class Character : MonoBehaviour, DamageableObject {
 	}
 	
 	void CharacterAttack() {
-		//TODO: If the player doesn't have a weapon equipped, have them attack with their fists instead (make a default weapon)
+		//JPS: If the player doesn't have a weapon equipped, have them attack with their fists instead (make a default weapon)
 		if (currentWeapon != null && !inMeleeAttackCoroutine && attackCooldown <= 0 && Input.GetKeyDown(KeyCode.E)) {
 			attackCooldown = currentWeapon.attackCoolDown;
 			StartCoroutine(MeleeAttack());

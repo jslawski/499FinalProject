@@ -13,6 +13,8 @@ public class Halberd : Weapon {
 	protected override void Start () {
 		base.Start();
 
+		weaponType = "Halberd";
+
 		weaponDimensions = Vector3.one * 1.5f;
 		attackDelay = 0.25f;
 		attackTime = 0.75f;
@@ -40,7 +42,7 @@ public class Halberd : Weapon {
 		//I'm up for having this dependent on rarity as well
 		critChance = 0.1f;
 
-		weaponName = NameGenerator.GenerateName(this, "Halberd");
+		weaponName = NameGenerator.GenerateName(this);
 
 		PrintWeaponStats("Halberd");
 	}
