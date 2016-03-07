@@ -44,7 +44,6 @@ public class Armor : MonoBehaviour, Equipment {
 
 	public Rarity rarity {
 		get { return armorRarity; }
-		set { armorRarity = value; }
 	}
 
 	public Dictionary<Enchantments, float> enchantments {
@@ -55,53 +54,20 @@ public class Armor : MonoBehaviour, Equipment {
 		get { return armorGemSlots; }
 	}
 
+	public List<Gems> gems {
+		get { return attachedGems; }
+	}
+
 	// Use this for initialization
 	void Start () {
-		//Like weapons, in the future rarity will be determined as soon as the armor is taken out of a chest
-		//Just set it here for debugging purposes for now
-		armorRarity = (Rarity)Random.Range(0, 3);
-
-		//For debugging purposes, populate with random gem slots and gems.  
-		//This will later vary based on rarity and potentially type of armor (if we decide to have different types)
-		armorGemSlots = Random.Range(0, 6);
 		attachedGems = new List<Gems>();
-		for (int i = 0; i < numGemSlots; i++) {
-			attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));
-		}
-
-		//Populate dictionary with all of the armor's enchantments
 		armorEnchantments = new Dictionary<Enchantments, float>();
-		CalculateEnchantmentPercents();
 
-		DetermineDefenseStats();
-
-		//Generate the name of the armor given the randomly generated values above
-		armorName = NameGenerator.GenerateName(this);
+		//Uncomment the Debug function and comment the other one to generate an unweighted random armor
+		GenerateEquipmentStatsDebug();
+		//GenerateEquipmentStats();
 
 		PrintArmorStats();
-	}
-
-	protected void PrintArmorStats() {
-		Debug.Log("<b>Armor Stats:</b>\n<i>Rarity: </i>" + armorRarity + "\n<i>Defense Min: </i>" + defenseMin +
-				  "\n<i>Defense Max: </i>" + defenseMax + "\n<i>Gems Equipped: </i>" + PrintGems() + "\n<i>Enchantment Percents: </i>" + PrintDictionary());
-	}
-
-	string PrintGems() {
-		string returnValue = "";
-
-		foreach (Gems gem in attachedGems) {
-			returnValue += "\n     " + gem.ToString();
-		}
-		return returnValue;
-	}
-
-	string PrintDictionary() {
-		string returnValue = "";
-
-		foreach (Enchantments key in armorEnchantments.Keys) {
-			returnValue += "\n     " + key + ": " + armorEnchantments[key];
-		}
-		return returnValue;
 	}
 
 	//Determine the min and max defense values for this piece of armor
@@ -149,6 +115,104 @@ public class Armor : MonoBehaviour, Equipment {
 				armorEnchantments[(Enchantments)i] += baseEnchantmentChance / (j + 1);
 			}
 		}
+	}
+
+	//Generate a completely random weapon, regardless of the rarities of anything
+	void GenerateEquipmentStatsDebug() {
+		//Like weapons, in the future rarity will be determined as soon as the armor is taken out of a chest
+		//Just set it here for debugging purposes for now
+		armorRarity = (Rarity)Random.Range(0, 3);
+
+		//For debugging purposes, populate with random gem slots and gems.  
+		//This will later vary based on rarity and potentially type of armor (if we decide to have different types)
+		armorGemSlots = Random.Range(0, 6);
+
+		for (int i = 0; i < numGemSlots; i++) {
+			attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));
+		}
+
+		//Populate dictionary with all of the armor's enchantments
+		CalculateEnchantmentPercents();
+
+		DetermineDefenseStats();
+
+		//Generate the name of the armor given the randomly generated values above
+		armorName = NameGenerator.GenerateName(this);
+	}
+
+	public void GenerateEquipmentStats() {
+		//Roll to see how rare the equipment is
+		float rarityRoll = Random.Range(0, 1.0f);
+
+		//Determine the equipment's rarity
+		//Common:		50%
+		//Uncommon:		30%
+		//Rare:			20%				 
+		if ((1 - rarityRoll) <= 0.20f) {
+			armorRarity = Rarity.Rare;
+		}
+		else if ((1 - rarityRoll) <= 0.30f) {
+			armorRarity = Rarity.Uncommon;
+		}
+		else {
+			armorRarity = Rarity.Common;
+		}
+		
+		//Determine number of gem slots
+		//Common:		0
+		//Uncommon:		1-3
+		//Rare:			3-5	
+		if (armorRarity == Rarity.Common) {
+			armorGemSlots = 0;
+		}
+		else if (armorRarity == Rarity.Uncommon) {
+			armorGemSlots = Random.Range(1, 4);
+		}
+		else if (armorRarity == Rarity.Rare) {
+			armorGemSlots = Random.Range(3, 6);
+		}
+
+		//Determine if any gem slots will have a gem in it
+		//For each gem slot, there is a 10% chance to have a gem in it
+		//JPS: Scale this to factor in rarity of the gem, which isn't implemented yet.
+		//	   Currently any gem has an equal chance of taking up a gem slot.
+		for (int i = 0; i < armorGemSlots; i++) {
+			float gemRoll = Random.Range(0, 1.0f);
+			if ((1 - gemRoll) <= 0.10f) {
+				attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));
+			}
+		}
+
+		//Calculate enchantment percents for each gem equipped
+		CalculateEnchantmentPercents();
+
+		DetermineDefenseStats();
+
+		//Generate the name of the armor given the randomly generated values above
+		armorName = NameGenerator.GenerateName(this);
+	}
+
+	protected void PrintArmorStats() {
+		Debug.Log("<b>Armor Stats:</b>\n<i>Rarity: </i>" + armorRarity + "\n<i>Defense Min: </i>" + defenseMin +
+				  "\n<i>Defense Max: </i>" + defenseMax + "\n<i>Gems Equipped: </i>" + PrintGems() + "\n<i>Enchantment Percents: </i>" + PrintDictionary());
+	}
+
+	string PrintGems() {
+		string returnValue = "";
+
+		foreach (Gems gem in attachedGems) {
+			returnValue += "\n     " + gem.ToString();
+		}
+		return returnValue;
+	}
+
+	string PrintDictionary() {
+		string returnValue = "";
+
+		foreach (Enchantments key in armorEnchantments.Keys) {
+			returnValue += "\n     " + key + ": " + armorEnchantments[key];
+		}
+		return returnValue;
 	}
 
 	//Predicate for finding all instances of a target gem

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour {
 		damageDisplay.SetDamageValue(damageDone);
 	}
 
-	//Creates a new instance of weapon text, and keeps track of the instance that is currently
+	//Creates a new instance of equipment text, and keeps track of the instance that is currently
 	//being displayed
 	public void DisplayEquipmentText(Vector3 position, string text) {
 		currentEquipmentText = Instantiate(weaponTextPrefab, position, new Quaternion()) as GameObject;

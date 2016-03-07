@@ -2,6 +2,10 @@
 using System.Collections;
 
 public class Chest : MonoBehaviour {
+	//JPS: Implement different tiers of chests (common, uncommon, and rare) that have more likelihood
+	//	   of producing equipment of different rarities.  Refactor equipment stat determination to be OUTSIDE
+	//	   of Start(), and instead only happens when GenerateEquipmentStats() is called, so the equipment stats
+	//	   can be manipulated in this script.
 
 	private GameObject[] weapons;			//List of all of the possible weapons
 											
@@ -24,32 +28,22 @@ public class Chest : MonoBehaviour {
 		//JPS: I'm thinking weapons should be more abundant than armor, because
 		//	   a player is more likely to swap out new weapons than new armor...
 
-		//Roll to see what the item is, and how rare it is
-		float rarityRoll = Random.Range(0, 1.0f);
+		//Roll to see what the item is
 		float equipmentTypeRoll = Random.Range(0, 1.0f);
 
 		//Determine equipmentType
 		//Weapons:	60%
 		//Armor:	40%
-		if (1 - equipmentTypeRoll <= 0.60f) {
-			currentEquipment = new Weapon();
+		if ((1 - equipmentTypeRoll) <= 0.40f) {
+			print("Generating Armor!");
+			Instantiate(armorPrefab, transform.position, new Quaternion());
 		}
-		else if (1 - equipmentTypeRoll <= 0.40f) {
-			currentEquipment = new Armor();
+		else {
+			print("Generating Weapon!");
+			Instantiate(weapons[Random.Range(0, weapons.Length)], transform.position, new Quaternion());
 		}
-
-		//Determine the equipment's rarity
-		//Common:		50%
-		//Uncommon:		30%
-		//Rare:			20%				 
-		if (1 - rarityRoll <= 0.50f) {
-			currentEquipment.rarity = Rarity.Common;
-		}
-		else if (1 - rarityRoll <= 0.30f) {
-			currentEquipment.rarity = Rarity.Uncommon;
-		}
-		else if (1 - rarityRoll <= 0.20f) {
-			currentEquipment.rarity = Rarity.Rare;
-		}
+		
+		//Destroy the chest
+		Destroy(gameObject);
 	}
 }

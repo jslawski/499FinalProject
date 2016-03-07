@@ -48,7 +48,6 @@ public class Weapon : MonoBehaviour, Equipment {
 
 	public Rarity rarity {
 		get { return weaponRarity; }
-		set { weaponRarity = value; }
 	}
 
 	public Dictionary<Enchantments, float> enchantments {
@@ -63,25 +62,18 @@ public class Weapon : MonoBehaviour, Equipment {
 		get { return weaponGemSlots; }
 	}
 
+	public List<Gems> gems {
+		get { return attachedGems; }
+	}
+
 	// Use this for initialization
 	protected virtual void Start () {
-		//I would like to have this dynamically determined, sometimes by random chance, and other times depending on the chest it comes out of
-		//Having a "rare chest" that has a guaranteed rare item would be kind of cool.  For now, the rarity is preset in this function
-		weaponRarity = (Rarity)Random.Range(0, 3);
-
-		//For testing purposes, each weapon is given a random number of enchantment slots, with a random selection of gems.  
-		//I'd like to explore the possibility of varying the number of slots based on weapon type, weapon rarity, or other factors in the future.
-		//Gem slots will be populated only when the weapon is enchanted at a blacksmith.  For now, I'm just putting random ones in automatically
-		//for testing.
-		weaponGemSlots = Random.Range(0, 6);
 		attachedGems = new List<Gems>();
-		for (int i = 0; i < numGemSlots; i++) {
-			attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));
-		}
-
-		//Populate dictionary with all of the weapon's enchantments
 		weaponEnchantments = new Dictionary<Enchantments, float>();
-		CalculateEnchantmentPercents();
+
+		//Uncomment the Debug function and comment the other one to generate an unweighted random weapon
+		GenerateEquipmentStatsDebug();
+		//GenerateEquipmentStats();
 	}
 
 	//Calculate percent-chances for each enchantment on the weapon
@@ -112,6 +104,73 @@ public class Weapon : MonoBehaviour, Equipment {
 				weaponEnchantments[(Enchantments)i] += baseEnchantmentChance / (j + 1);
 			}
 		}
+	}
+
+	//Generate a completely random weapon, regardless of the rarities of anything
+	protected void GenerateEquipmentStatsDebug() {
+		//JPS: I would like to have this dynamically determined, sometimes by random chance, and other times depending on the chest it comes out of
+		//Having a "rare chest" that has a guaranteed rare item would be kind of cool.  For now, the rarity is preset in this function
+		weaponRarity = (Rarity)Random.Range(0, 3);
+
+		//For testing purposes, each weapon is given a random number of enchantment slots, with a random selection of gems.  
+		//I'd like to explore the possibility of varying the number of slots based on weapon type, weapon rarity, or other factors in the future.
+		//Gem slots will be populated only when the weapon is enchanted at a blacksmith.  For now, I'm just putting random ones in automatically
+		//for testing.
+		weaponGemSlots = Random.Range(0, 6);
+
+		for (int i = 0; i < numGemSlots; i++) {
+			attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));
+		}
+
+		//Populate dictionary with all of the weapon's enchantments
+		CalculateEnchantmentPercents();
+	}
+
+	public virtual void GenerateEquipmentStats() {
+		//Roll to see how rare the equipment is
+		float rarityRoll = Random.Range(0, 1.0f);
+
+		//Determine the equipment's rarity
+		//Common:		50%
+		//Uncommon:		30%
+		//Rare:			20%				 
+		if ((1 - rarityRoll) <= 0.20f) {
+			weaponRarity = Rarity.Rare;
+		}
+		else if ((1 - rarityRoll) <= 0.30f) {
+			weaponRarity = Rarity.Uncommon;
+		}
+		else {
+			weaponRarity = Rarity.Common;
+		}
+		
+		//Determine number of gem slots
+		//Common:		0
+		//Uncommon:		1-3
+		//Rare:			3-5	
+		if (weaponRarity == Rarity.Common) {
+			weaponGemSlots = 0;
+		}
+		else if (weaponRarity == Rarity.Uncommon) {
+			weaponGemSlots = Random.Range(1, 4);
+		}
+		else if (weaponRarity == Rarity.Rare) {
+			weaponGemSlots = Random.Range(3, 6);
+		}
+
+		//Determine if any gem slots will have a gem in it
+		//For each gem slot, there is a 10% chance to have a gem in it
+		//JPS: Scale this to factor in rarity of the gem, which isn't implemented yet.
+		//	   Currently any gem has an equal chance of taking up a gem slot.
+		for (int i = 0; i < weaponGemSlots; i++) {
+			float gemRoll = Random.Range(0, 1.0f);
+			if ((1 - gemRoll) <= 0.10f) {
+				attachedGems.Add((Gems)Random.Range(0, (int)Gems.NumberOfTypes));
+			}
+		}
+
+		//Calculate enchantment percents for each gem equipped
+		CalculateEnchantmentPercents();
 	}
 
 	//Predicate for finding all instances of a target gem
