@@ -90,9 +90,6 @@ public class EquipmentTextZone : MonoBehaviour {
 		}
 	}
 
-	//JPS: Known bug.  Equipment can't be too close to each other.  If a player is able to 
-	//walking into two triggers without exiting either of them, then both texts will display,
-	//but only one will be destroyed when the player exists the triggers
 	void OnTriggerExit(Collider other) {
 		if (other.gameObject.tag == "Player") {
 			GameManager.S.DestroyEquipmentText();

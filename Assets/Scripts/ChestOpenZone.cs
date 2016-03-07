@@ -22,4 +22,10 @@ public class ChestOpenZone : MonoBehaviour {
 			}
 		}
 	}
+
+	void OnTriggerExit(Collider other) {
+		if (other.gameObject.tag == "Player") {
+			GameManager.S.DestroyEquipmentText();
+		}
+	}
 }
