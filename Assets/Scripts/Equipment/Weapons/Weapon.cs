@@ -34,8 +34,8 @@ public class Weapon : MonoBehaviour, Equipment {
 		get { return weaponName; }
 	}
 
-	public string equipmentType {
-		get { return "Weapon"; }
+	public EquipmentType equipmentType {
+		get { return EquipmentType.Weapon; }
 	}
 
 	public float minValue {
@@ -48,6 +48,7 @@ public class Weapon : MonoBehaviour, Equipment {
 
 	public Rarity rarity {
 		get { return weaponRarity; }
+		set { weaponRarity = value; }
 	}
 
 	public Dictionary<Enchantments, float> enchantments {

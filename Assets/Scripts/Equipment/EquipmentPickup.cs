@@ -16,10 +16,10 @@ public class EquipmentPickup : MonoBehaviour {
 		if (other.gameObject.tag == "Player") {
 			//JPS:  Unequip current equipment of the same type.  Drop it somewhere around the player so that they can pick it up again.
 			//		Right now the current weapon gets replaced, even though it remains a child of the player game object.
-			if (thisEquipment.equipmentType == "Weapon") {
+			if (thisEquipment.equipmentType == EquipmentType.Weapon) {
 				other.gameObject.GetComponent<Character>().EquipWeapon(GetComponent<Weapon>());
 			}
-			else if (thisEquipment.equipmentType == "Armor") {
+			else if (thisEquipment.equipmentType == EquipmentType.Armor) {
 				other.gameObject.GetComponent<Character>().EquipArmor(GetComponent<Armor>());
 			}
 

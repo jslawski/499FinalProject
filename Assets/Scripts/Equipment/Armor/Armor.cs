@@ -25,8 +25,8 @@ public class Armor : MonoBehaviour, Equipment {
 		get { return armorName; }
 	}
 
-	public string equipmentType {
-		get { return "Armor"; }
+	public EquipmentType equipmentType {
+		get { return EquipmentType.Armor; }
 	}
 
 	//No different armor types (yet?)
@@ -44,6 +44,7 @@ public class Armor : MonoBehaviour, Equipment {
 
 	public Rarity rarity {
 		get { return armorRarity; }
+		set { armorRarity = value; }
 	}
 
 	public Dictionary<Enchantments, float> enchantments {

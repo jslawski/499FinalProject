@@ -48,14 +48,14 @@ public class EquipmentTextZone : MonoBehaviour {
 			textValue += "<b><color=silver>" + thisEquipment.equipmentName + "</color></b>\n";
 		}
 		else if (thisEquipment.rarity == Rarity.Rare) {
-			textValue += "<b><color=orange>" + thisEquipment.equipmentName + "</color></b>\n";
+			textValue += "<b><color=#FFD700>" + thisEquipment.equipmentName + "</color></b>\n";
 		}
 
 		//JPS: I'd like to replace this with icons in the future...
-		if (thisEquipment.equipmentType == "Weapon") {
+		if (thisEquipment.equipmentType == EquipmentType.Weapon) {
 			textValue += "<b>Dmg:</b> " + thisEquipment.minValue + " - " + thisEquipment.maxValue + "\n";
 		}
-		else if (thisEquipment.equipmentType == "Armor") {
+		else if (thisEquipment.equipmentType == EquipmentType.Armor) {
 			textValue += "<b>Def:</b> " + thisEquipment.minValue + " - " + thisEquipment.maxValue + "\n";
 		}
 

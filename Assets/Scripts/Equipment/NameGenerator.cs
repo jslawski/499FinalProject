@@ -5,7 +5,7 @@ using System.Collections;
 public class NameGenerator : MonoBehaviour {
 	private static string GetAdjectiveFromKey(Equipment thisEquipment, Enchantments key) {
 		//Different equipment types have different adjectives
-		if (thisEquipment.equipmentType == "Weapon") {
+		if (thisEquipment.equipmentType == EquipmentType.Weapon) {
 			switch (key) {
 				case Enchantments.ICE_KEY:
 					return "Frigid ";
@@ -21,7 +21,7 @@ public class NameGenerator : MonoBehaviour {
 					return "<color=red>ERROR: Adjective could not be determined!</color>";
 			}
 		}
-		else if (thisEquipment.equipmentType == "Armor") {
+		else if (thisEquipment.equipmentType == EquipmentType.Armor) {
 			switch (key) {
 				case Enchantments.ICE_KEY:
 					return "Frostbitten ";
@@ -79,9 +79,9 @@ public class NameGenerator : MonoBehaviour {
 		//Different types of equipment have different words for their grades
 		if (thisEquipment.rarity == Rarity.Common) {
 			switch (thisEquipment.equipmentType) {
-				case "Weapon":
+				case EquipmentType.Weapon:
 					return "Shoddy";
-				case "Armor":
+				case EquipmentType.Armor:
 					return "Leather Mail";
 				default:
 					return "<color=red>ERROR: Equipment type for equipment grade could not be determined!</color>";
@@ -89,9 +89,9 @@ public class NameGenerator : MonoBehaviour {
 		}
 		else if (thisEquipment.rarity == Rarity.Uncommon) {
 			switch (thisEquipment.equipmentType) {
-				case "Weapon":
+				case EquipmentType.Weapon:
 					return "Fine";
-				case "Armor":
+				case EquipmentType.Armor:
 					return "Chain Mail";
 				default:
 					return "<color=red>ERROR: Equipment type for equipment grade could not be determined!</color>";
@@ -99,9 +99,9 @@ public class NameGenerator : MonoBehaviour {
 		}
 		else if (thisEquipment.rarity == Rarity.Rare) {
 			switch (thisEquipment.equipmentType) {
-				case "Weapon":
+				case EquipmentType.Weapon:
 					return "Superior";
-				case "Armor":
+				case EquipmentType.Armor:
 					return "Iron Mail";
 				default:
 					return "<color=red>ERROR: Equipment type for equipment grade could not be determined!</color>";
@@ -114,7 +114,7 @@ public class NameGenerator : MonoBehaviour {
 
 	private static string GetNounFromKey(Equipment thisEquipment, Enchantments key) {
 		//Different equipment types have different adjectives
-		if (thisEquipment.equipmentType == "Weapon") {
+		if (thisEquipment.equipmentType == EquipmentType.Weapon) {
 			switch (key) {
 				case Enchantments.ICE_KEY:
 					return " of Frost";
@@ -130,7 +130,7 @@ public class NameGenerator : MonoBehaviour {
 					return "<color=red>ERROR: Weapon noun could not be determined!</color>";
 			}
 		}
-		else if (thisEquipment.equipmentType == "Armor") {
+		else if (thisEquipment.equipmentType == EquipmentType.Armor) {
 			switch (key) {
 				case Enchantments.ICE_KEY:
 					return " of Crystalization";  //JPS: Not a fan of this one
